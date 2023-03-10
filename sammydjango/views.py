@@ -26,12 +26,13 @@ def insertData(request):
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
-        age = request.POST.get('age')
+        plate = request.POST.get('plate')
         gender = request.POST.get('gender')
-        country = request.POST.get('country')
-        city = request.POST.get('city')
+        LID = request.POST.get('LID')
+        DOI = request.POST.get('DOI')
+        ED = request.POST.get('ED')
 
-        query = Client(name=name, email=email, age=age, gender=gender, country=country, city=city)
+        query = Client(name=name, email=email,  plate=plate, gender=gender, LID=LID, DOI=DOI, ED=ED)
         query.save()
         return redirect("/")
 
@@ -50,19 +51,21 @@ def updateData(request, id):
         # Receive updated data from the form
         name = request.POST.get("name")
         email = request.POST.get("email")
-        age = request.POST.get("age")
+        plate = request.POST.get("plate")
         gender = request.POST.get("gender")
-        country = request.POST.get("country")
-        city = request.POST.get("city")
+        LID = request.POST.get("LID")
+        DOI = request.POST.get("DOI")
+        ED = request.POST.get("ED")
 
         # update the product
-        update_info = Student.objects.get(id=id)
+        update_info = Client.objects.get(id=id)
         update_info.name = name
         update_info.email = email
-        update_info.age = age
+        update_info.plate = plate
         update_info.gender = gender
-        update_info.country = country
-        update_info.city = city
+        update_info.LID = LID
+        update_info.DOI = DOI
+        update_info.ED = ED
 
         # Return the updated value back to the database
         update_info.save()
