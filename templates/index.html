@@ -9,11 +9,15 @@
     <meta content="Free HTML Templates" name="description">
 
     {% load static %}
-       <link rel="javascript" href="{% static "js/main.js" %}">
+       <link rel="stylesheet" href="{% static "js/main.js" %}">
 
-    <!-- Favicon -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static "scss/bootstrap/scss/forms/_floating-labels.scss" %}">
+
     {% load static %}
     <img src="{% static "images/favicon_icon.png" %}" alt="" rel="icon">
+
+
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -514,7 +518,7 @@
                 <div class="team-item">
                     <div class="position-relative overflow-hidden">
                         {% load static %}
-                        <img class="img-fluid w-100" src="{% static "images/team-3.jpg %}" alt="">
+                        <img class="img-fluid w-100" src="{% static "images/team-3.jpg" %}" alt= "" ></div>
                         <div class="team-overlay">
                             <div class="d-flex align-items-center justify-content-start">
                                 <a class="btn btn-light btn-square mx-1" href="#"><i class="bi bi-twitter"></i></a>
