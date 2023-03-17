@@ -4,46 +4,43 @@ from django.contrib import messages
 from .models import Client
 
 
+from django_daraja.mpesa import utils
+from django.http import HttpResponse, JsonResponse
+from django.views.generic import View
+from django_daraja.mpesa.core import MpesaClient
+from decouple import config
+from datetime import datetime
+from django.shortcuts import render
+
+
 def index_page(request):
     data = Client.objects.all()
     context = {"data": data}
     return render(request, "index.html", context)
 
-
-def login_page(request):
-    return render(request, "login.html")
-
-
 def edit_page(request):
     return render(request, "edit.html")
-
-
-def signup_page(request):
-    return render(request, "signup.html")
-
 
 def insertData(request):
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
-        plate = request.POST.get('plate')
-        gender = request.POST.get('gender')
-        LID = request.POST.get('LID')
+        MID = request.POST.get('MID')
         DOI = request.POST.get('DOI')
-        ED = request.POST.get('ED')
 
-        query = Client(name=name, email=email,  plate=plate, gender=gender, LID=LID, DOI=DOI, ED=ED)
+
+        query = Client(name=name, email=email, MID=MID, DOI=DOI)
         query.save()
         return redirect("/")
 
-        return render(request, 'index.html')
+        return render(request, 'home.html')
 
 
 def deleteData(request, id):
     d = Client.objects.get(id=id)
     d.delete()
     return redirect("/")
-    return render(request, "index.html")
+    return render(request, "home.html")
 
 
 def updateData(request, id):
@@ -51,21 +48,17 @@ def updateData(request, id):
         # Receive updated data from the form
         name = request.POST.get("name")
         email = request.POST.get("email")
-        plate = request.POST.get("plate")
-        gender = request.POST.get("gender")
-        LID = request.POST.get("LID")
+        MID = request.POST.get("MID")
         DOI = request.POST.get("DOI")
-        ED = request.POST.get("ED")
+
 
         # update the product
         update_info = Client.objects.get(id=id)
         update_info.name = name
         update_info.email = email
-        update_info.plate = plate
-        update_info.gender = gender
-        update_info.LID = LID
+        update_info.MID = MID
         update_info.DOI = DOI
-        update_info.ED = ED
+
 
         # Return the updated value back to the database
         update_info.save()
@@ -74,3 +67,17 @@ def updateData(request, id):
     d = Client.objects.get(id=id)
     context = {"d": d}
     return render(request, "edit.html", context)
+
+
+def pay(request, id):
+    if request.method == "POST":
+        phone_number = request.POST.get('phone')
+        amount = request.POST.get('amount')
+        amount = int(amount)
+        account_reference = 'SAMANTHA'
+        transaction_desc = 'STK Push Description'
+        callback_url = stk_push_callback_url
+        r = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+        return JsonResponse(r.response_description, safe=False)
+
+    return render(request, 'payments.html')
