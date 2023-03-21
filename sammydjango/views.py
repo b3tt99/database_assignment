@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .models import Client
 
-
 from django_daraja.mpesa import utils
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import View
@@ -18,8 +17,16 @@ def index_page(request):
     context = {"data": data}
     return render(request, "index.html", context)
 
+
+def home_page(request):
+    data = Client.objects.all()
+    context = {"data": data}
+    return render(request, "home.html", context)
+
+
 def edit_page(request):
     return render(request, "edit.html")
+
 
 def insertData(request):
     if request.method == "POST":
@@ -27,7 +34,6 @@ def insertData(request):
         email = request.POST.get('email')
         MID = request.POST.get('MID')
         DOI = request.POST.get('DOI')
-
 
         query = Client(name=name, email=email, MID=MID, DOI=DOI)
         query.save()
@@ -51,14 +57,12 @@ def updateData(request, id):
         MID = request.POST.get("MID")
         DOI = request.POST.get("DOI")
 
-
         # update the product
         update_info = Client.objects.get(id=id)
         update_info.name = name
         update_info.email = email
         update_info.MID = MID
         update_info.DOI = DOI
-
 
         # Return the updated value back to the database
         update_info.save()

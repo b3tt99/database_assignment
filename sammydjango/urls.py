@@ -24,5 +24,6 @@ urlpatterns = [
     path('insert', views.insertData, name='insertData'),
     path('delete/<id>', views.deleteData, name='deleteData'),
     path('update/<id>', views.updateData, name='updateData'),
-    path('pay/<id>', views.pay, name='pay')
+    path('pay/<id>', views.pay, name='pay'),
+    path('join/<id>', views.home_page, name='join')
     ]
