@@ -85,3 +85,8 @@ def pay(request, id):
         return JsonResponse(r.response_description, safe=False)
 
     return render(request, 'payments.html')
+
+def join(request):
+    data = Client.objects.all()
+    context = {"data": data}
+    return render(request, "home.html", context)
